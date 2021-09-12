@@ -1,0 +1,3 @@
+rootProject.name = "OrygooSdk"
+include ':app'
+include ':orygoolibrary'
