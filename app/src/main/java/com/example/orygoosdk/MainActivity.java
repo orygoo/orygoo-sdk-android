@@ -2,9 +2,13 @@ package com.example.orygoosdk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.orygoolibrary.OrygooManager;
 import com.example.orygoolibrary.OrygooVariantsResult;
@@ -18,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    Button b1, b2, b3;
+    TextView t1;
+    EditText e1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
             .build(MainActivity.this);
 
     public void init_button(View view) {
+        e1 = (EditText) findViewById(R.id.editTextTextPersonName);
 
         SessionModel session = new SessionModel(
                 "",
-                "1",
+                e1.getText().toString(),
                 "1",
                 "deviceId",
                 "xdigoxinx@gmail.com",
@@ -70,6 +78,16 @@ public class MainActivity extends AppCompatActivity {
         orygooManager.getVariants(varReq, defaultValue, new GetVariants() {
             @Override
             public void onSuccess(OrygooVariantsResult variants) {
+                b1 = (Button) findViewById(R.id.button_send2);
+                t1 = (TextView) findViewById(R.id.textView);
+
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String color = variants.getValue("Button", "Color", "#0000FF");
+                        t1.setTextColor(Color.parseColor(color));
+                    }
+                });
                 Log.d("Get Variants SUCCESS", variants.getValue("Button", "Color", "Blue"));
             }
 
@@ -83,5 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void reset_button(View view) {
         orygooManager.reset();
+        t1 = (TextView) findViewById(R.id.textView);
+        t1.setTextColor(Color.parseColor("#000000"));
     }
 }
