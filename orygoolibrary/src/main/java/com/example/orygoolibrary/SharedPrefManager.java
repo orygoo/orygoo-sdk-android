@@ -3,10 +3,6 @@ package com.example.orygoolibrary;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.orygoolibrary.model.VariantsResult;
-
-import java.util.Map;
-
 public class SharedPrefManager {
 
     private static final String PREF_NAME = "AndroidHivePref";
@@ -40,6 +36,11 @@ public class SharedPrefManager {
     public String getItem(String itemName){
         String item = pref.getString(itemName, "");
         return item;
+    }
+
+    public void reset() {
+        editor.clear();
+        editor.commit();
     }
 
 

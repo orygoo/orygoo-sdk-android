@@ -110,7 +110,6 @@ public class OrygooManager {
     public void initOrygoo(SessionModel session) {
         SharedPrefManager manager = new SharedPrefManager(getContext());
 
-        String sessionId = manager.getItem("sessionId");
         String anonymousId = manager.getItem("anonymousId");
 
         manager.removeItem("variants");
@@ -122,10 +121,6 @@ public class OrygooManager {
             session.setAnonymousId(anonId);
             manager.saveItem("anonymousId", anonId);
         }
-
-//        manager.removeItem("sessionId");
-
-        Log.d("Session Id saved :", sessionId);
 
         Call<SessionModel> call = orygooService.initialize(session, getClientKey(), getSecretKey());
 
@@ -216,33 +211,7 @@ public class OrygooManager {
         // Context object is require to create its object.
         SharedPrefManager manager = new SharedPrefManager(getContext());
 
-        manager.removeItem("sessionToken");
-        manager.removeItem("variants");
+        manager.reset();
     }
-
-//    void fetchVariants(List<String> namespaces) {
-//
-//        Call<Map<String, Variants>> call = orygooService.getVariants(namespaces, namespaces, getClientKey(), getSecretKey());
-//
-//        call.enqueue(new Callback<Map<String, Variants>>() {
-//            @Override
-//            public void onResponse(Call<Map<String, Variants>> call, Response<Map<String, Variants>> response) {
-//                if (!response.isSuccessful()) {
-//                    return;
-//                }
-//
-//                Map<String, Variants> resp = response.body();
-//
-//                setVariantList(resp);
-//
-//                Log.d("GETTT 2", String.valueOf(resp));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Map<String, Variants>> call, Throwable t) {
-//                Log.e("TAG", "Got error : " + t.getLocalizedMessage());
-//            }
-//        });
-//    }
 
 }

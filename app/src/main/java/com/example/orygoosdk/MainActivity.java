@@ -81,14 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 b1 = (Button) findViewById(R.id.button_send2);
                 t1 = (TextView) findViewById(R.id.textView);
 
-                b1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String color = variants.getValue("Button", "Color", "#0000FF");
-                        t1.setTextColor(Color.parseColor(color));
-                    }
-                });
-                Log.d("Get Variants SUCCESS", variants.getValue("Button", "Color", "Blue"));
+                Log.d("Orygoo main activity :", variants.getValue("Button", "Color", "#FFFF00"));
+
+                String color = variants.getValue("Button", "Color", "#FFFF00");
+                t1.setTextColor(Color.parseColor(color));
             }
 
             @Override
