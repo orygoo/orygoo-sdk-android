@@ -13,8 +13,10 @@ import android.widget.TextView;
 import com.example.orygoolibrary.OrygooManager;
 import com.example.orygoolibrary.OrygooVariantsResult;
 import com.example.orygoolibrary.model.SessionModel;
+import com.example.orygoolibrary.model.TrackModel;
 import com.example.orygoolibrary.model.VariantsModel;
 import com.example.orygoolibrary.model.VariantsResult;
+import com.example.orygoolibrary.rest.GetTrackEvent;
 import com.example.orygoolibrary.rest.GetVariants;
 
 import java.util.ArrayList;
@@ -99,5 +101,37 @@ public class MainActivity extends AppCompatActivity {
         orygooManager.reset();
         t1 = (TextView) findViewById(R.id.textView);
         t1.setTextColor(Color.parseColor("#000000"));
+    }
+
+    public void get_track2(View view) {
+        TrackModel trackModel = new TrackModel("track_2", "", "", "1", 1235423523);
+
+        orygooManager.trackEvent(trackModel, new GetTrackEvent() {
+            @Override
+            public void onSuccess(String status) {
+                Log.d("Success Track Event :", status);
+            }
+
+            @Override
+            public void onFailure(String throwableError) {
+                Log.d("Failed Track Event", throwableError);
+            }
+        });
+    }
+
+    public void get_track1(View view) {
+        TrackModel trackModel = new TrackModel("track_1", "", "", "1", 1235423523);
+
+        orygooManager.trackEvent(trackModel, new GetTrackEvent() {
+            @Override
+            public void onSuccess(String status) {
+                Log.d("Success Track Event :", status);
+            }
+
+            @Override
+            public void onFailure(String throwableError) {
+                Log.d("Failed Track Event", throwableError);
+            }
+        });
     }
 }

@@ -41,10 +41,10 @@
         android:text="@string/reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.66"
+        app:layout_constraintVertical_bias="0.746"
         tools:ignore="OnClick,UsingOnClickInXml" />
 
     <Button
@@ -59,6 +59,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"
+        tools:ignore="OnClick,UsingOnClickInXml" />
+
+    <Button
+        android:id="@+id/button_send4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="get_track1"
+        android:text="@string/track_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.321"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.592"
+        tools:ignore="OnClick,UsingOnClickInXml" />
+
+    <Button
+        android:id="@+id/button_send5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="get_track2"
+        android:text="@string/track_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.681"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.592"
         tools:ignore="OnClick,UsingOnClickInXml" />
 
     <EditText

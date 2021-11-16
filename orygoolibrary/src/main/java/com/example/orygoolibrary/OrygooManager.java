@@ -6,9 +6,11 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.example.orygoolibrary.model.SessionModel;
+import com.example.orygoolibrary.model.TrackModel;
 import com.example.orygoolibrary.model.VariantsResult;
 import com.example.orygoolibrary.model.VariantsModel;
 import com.example.orygoolibrary.rest.APIUtils;
+import com.example.orygoolibrary.rest.GetTrackEvent;
 import com.example.orygoolibrary.rest.GetVariants;
 import com.example.orygoolibrary.rest.OrygooApiService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -201,6 +203,42 @@ public class OrygooManager {
                     }
                 });
             }
+        } else {
+            customCallback.onFailure("Initialize First");
+        }
+    }
+
+    public void trackEvent(TrackModel trackModel, GetTrackEvent customCallback) {
+
+        // Context object is require to create its object.
+        SharedPrefManager manager = new SharedPrefManager(getContext());
+
+        String token = manager.getItem("sessionToken");
+
+//        Log.d("Orygoo token :", manager.getItem("variants"));
+
+        if(!token.isEmpty()){
+            Call<TrackModel> call = orygooService.trackEvent(trackModel, getClientKey(), getSecretKey(), manager.getItem("sessionToken"));
+
+            call.enqueue(new Callback<TrackModel>() {
+                @Override
+                public void onResponse(Call<TrackModel> call, Response<TrackModel> response) {
+                    if (!response.isSuccessful()) {
+                        customCallback.onFailure("Failed to track event");
+                    }
+
+                    TrackModel trackEventResponse = response.body();
+
+                    customCallback.onSuccess("success to track event");
+
+                    Log.d("Orygoo track event :", String.valueOf(trackEventResponse));
+                }
+
+                @Override
+                public void onFailure(Call<TrackModel> call, Throwable t) {
+                    Log.e("TAG", "Got error : " + t.getLocalizedMessage());
+                }
+            });
         } else {
             customCallback.onFailure("Initialize First");
         }
