@@ -5,8 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.orygoolibrary.model.SessionModel;
-import com.example.orygoolibrary.model.TrackModel;
+import com.example.orygoolibrary.model.InitializeModel;
+import com.example.orygoolibrary.model.InitOrygooClient;
+import com.example.orygoolibrary.model.TrackEventOrygooClient;
+import com.example.orygoolibrary.model.EventTrackModel;
 import com.example.orygoolibrary.model.VariantsResult;
 import com.example.orygoolibrary.model.VariantsModel;
 import com.example.orygoolibrary.rest.APIUtils;
@@ -109,7 +111,7 @@ public class OrygooManager {
         }
     }
 
-    public void initOrygoo(SessionModel session) {
+    public void initOrygoo(InitOrygooClient session) {
         SharedPrefManager manager = new SharedPrefManager(getContext());
 
         String anonymousId = manager.getItem("anonymousId");
@@ -124,16 +126,31 @@ public class OrygooManager {
             manager.saveItem("anonymousId", anonId);
         }
 
-        Call<SessionModel> call = orygooService.initialize(session, getClientKey(), getSecretKey());
+        InitializeModel initModel = new InitializeModel(
+                "1",
+                session.getUserId(),
+                session.getAnonymousId(),
+                "12",
+                session.getUserEmail(),
+                session.getUserPhoneNumber(),
+                "ANDROID",
+                "samsung",
+                "12",
+                session.getClientVersion(),
+                session.getLanguage(),
+                session.getCountry()
+        );
 
-        call.enqueue(new Callback<SessionModel>() {
+        Call<InitializeModel> call = orygooService.initialize(initModel, getClientKey(), getSecretKey());
+
+        call.enqueue(new Callback<InitializeModel>() {
             @Override
-            public void onResponse(Call<SessionModel> call, Response<SessionModel> response) {
+            public void onResponse(Call<InitializeModel> call, Response<InitializeModel> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
 
-                SessionModel sessionResponse = response.body();
+                InitializeModel sessionResponse = response.body();
                 String content = "";
                 content += "SessionToken: " + sessionResponse.getSessionToken() + "\n";
 
@@ -146,7 +163,7 @@ public class OrygooManager {
             }
 
             @Override
-            public void onFailure(Call<SessionModel> call, Throwable t) {
+            public void onFailure(Call<InitializeModel> call, Throwable t) {
                 Log.e("TAG", "Got error : " + t.getLocalizedMessage());
             }
         });
@@ -208,26 +225,32 @@ public class OrygooManager {
         }
     }
 
-    public void trackEvent(TrackModel trackModel, GetTrackEvent customCallback) {
+    public void trackEvent(TrackEventOrygooClient trackEventPayload, GetTrackEvent customCallback) {
 
         // Context object is require to create its object.
         SharedPrefManager manager = new SharedPrefManager(getContext());
 
         String token = manager.getItem("sessionToken");
 
-//        Log.d("Orygoo token :", manager.getItem("variants"));
+        EventTrackModel eventTrack = new EventTrackModel(
+                trackEventPayload.getEventName(),
+                trackEventPayload.getMetadata(),
+                trackEventPayload.getMonetaryValue(),
+                trackEventPayload.getValue(),
+                System.currentTimeMillis()
+        );
 
         if(!token.isEmpty()){
-            Call<TrackModel> call = orygooService.trackEvent(trackModel, getClientKey(), getSecretKey(), manager.getItem("sessionToken"));
+            Call<EventTrackModel> call = orygooService.trackEvent(eventTrack, getClientKey(), getSecretKey(), manager.getItem("sessionToken"));
 
-            call.enqueue(new Callback<TrackModel>() {
+            call.enqueue(new Callback<EventTrackModel>() {
                 @Override
-                public void onResponse(Call<TrackModel> call, Response<TrackModel> response) {
+                public void onResponse(Call<EventTrackModel> call, Response<EventTrackModel> response) {
                     if (!response.isSuccessful()) {
                         customCallback.onFailure("Failed to track event");
                     }
 
-                    TrackModel trackEventResponse = response.body();
+                    EventTrackModel trackEventResponse = response.body();
 
                     customCallback.onSuccess("success to track event");
 
@@ -235,7 +258,7 @@ public class OrygooManager {
                 }
 
                 @Override
-                public void onFailure(Call<TrackModel> call, Throwable t) {
+                public void onFailure(Call<EventTrackModel> call, Throwable t) {
                     Log.e("TAG", "Got error : " + t.getLocalizedMessage());
                 }
             });

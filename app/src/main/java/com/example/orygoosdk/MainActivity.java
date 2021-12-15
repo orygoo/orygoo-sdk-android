@@ -12,16 +12,14 @@ import android.widget.TextView;
 
 import com.example.orygoolibrary.OrygooManager;
 import com.example.orygoolibrary.OrygooVariantsResult;
-import com.example.orygoolibrary.model.SessionModel;
-import com.example.orygoolibrary.model.TrackModel;
+import com.example.orygoolibrary.model.InitOrygooClient;
+import com.example.orygoolibrary.model.TrackEventOrygooClient;
 import com.example.orygoolibrary.model.VariantsModel;
-import com.example.orygoolibrary.model.VariantsResult;
 import com.example.orygoolibrary.rest.GetTrackEvent;
 import com.example.orygoolibrary.rest.GetVariants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     Button b1, b2, b3;
@@ -41,22 +39,17 @@ public class MainActivity extends AppCompatActivity {
     public void init_button(View view) {
         e1 = (EditText) findViewById(R.id.editTextTextPersonName);
 
-        SessionModel session = new SessionModel(
-                "",
+        InitOrygooClient initPayload = new InitOrygooClient(
                 e1.getText().toString(),
                 "1",
-                "deviceId",
                 "xdigoxinx@gmail.com",
                 "081344559903",
-                "ANDROID",
-                "",
-                "",
                 "1",
                 "en",
                 "id"
         );
 
-        orygooManager.initOrygoo(session);
+        orygooManager.initOrygoo(initPayload);
     }
 
     public void get_variants(View view) {
@@ -104,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void get_track2(View view) {
-        TrackModel trackModel = new TrackModel("track_2", "", "", "1", 1235423523);
+        TrackEventOrygooClient trackEventClient = new TrackEventOrygooClient("track_2", "", "", "1");
 
-        orygooManager.trackEvent(trackModel, new GetTrackEvent() {
+        orygooManager.trackEvent(trackEventClient, new GetTrackEvent() {
             @Override
             public void onSuccess(String status) {
                 Log.d("Success Track Event :", status);
@@ -120,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void get_track1(View view) {
-        TrackModel trackModel = new TrackModel("track_1", "", "", "1", 1235423523);
+        TrackEventOrygooClient trackEvent = new TrackEventOrygooClient("track_1", "", "", "1");
 
-        orygooManager.trackEvent(trackModel, new GetTrackEvent() {
+        orygooManager.trackEvent(trackEvent, new GetTrackEvent() {
             @Override
             public void onSuccess(String status) {
                 Log.d("Success Track Event :", status);

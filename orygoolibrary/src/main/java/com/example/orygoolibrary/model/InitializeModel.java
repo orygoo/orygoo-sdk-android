@@ -1,6 +1,6 @@
 package com.example.orygoolibrary.model;
 
-public class SessionModel {
+public class InitializeModel {
     private String sessionToken;
     private String clientSessionId;
     private String userId;
@@ -16,7 +16,7 @@ public class SessionModel {
     private String language;
     private String country;
 
-    public SessionModel(
+    public InitializeModel(
             String clientSessionId,
             String userId,
             String anonymousId,
@@ -30,13 +30,13 @@ public class SessionModel {
             String language,
             String country
     ) {
-        this.clientSessionId = clientSessionId;
         this.userId = userId;
-        this.anonymousId = anonymousId;
         this.deviceId = deviceId;
+        this.anonymousId = anonymousId;
+        this.clientInterface = clientInterface;
+        this.clientSessionId = clientSessionId;
         this.userEmail = userEmail;
         this.userPhoneNumber = userPhoneNumber;
-        this.clientInterface = clientInterface;
         this.deviceModel = deviceModel;
         this.deviceOsVersion = deviceOsVersion;
         this.clientVersion = clientVersion;

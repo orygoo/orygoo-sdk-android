@@ -1,13 +1,13 @@
 package com.example.orygoolibrary.model;
 
-public class TrackModel {
+public class EventTrackModel {
     private String eventName;
     private String metadata;
     private String monetaryValue;
     private String value;
-    private Integer timestamp;
+    private Long timestamp;
 
-    public TrackModel(String eventName, String metadata, String monetaryValue, String value, int timestamp) {
+    public EventTrackModel(String eventName, String metadata, String monetaryValue, String value, Long timestamp) {
         this.metadata = metadata;
         this.eventName = eventName;
         this.monetaryValue = monetaryValue;
